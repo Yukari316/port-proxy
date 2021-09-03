@@ -15,6 +15,7 @@ type TcpSession struct {
 }
 
 func main() {
+	//传入参数处理
 	var cPort *int
 	cPort = flag.Int("cp", 8080, "监听端口")
 	var sAddrStr *string
@@ -66,8 +67,7 @@ func UdpServiceInit(udpServerAddr *net.UDPAddr, port *int) {
 			fmt.Println("read udp data error\n", err.Error())
 			continue
 		}
-		fmt.Println(addr.String(), " len=", dataLen)
-
+		fmt.Println("upd data from [", addr, "]")
 		go UdpDataForward(udpServerAddr, addr, buffer, dataLen)
 		buffer = make([]byte, 2048)
 	}
@@ -87,7 +87,6 @@ func UdpDataForward(serverAddr, clientAddr *net.UDPAddr, dataToSend []byte, data
 	}
 
 	fmt.Println(udpConn.LocalAddr())
-	fmt.Println("fuck")
 	buffer := make([]byte, 2048)
 	addr, _ := net.ResolveUDPAddr("udp", udpConn.LocalAddr().String())
 	udpServerListener, err := net.ListenUDP("udp", addr)
